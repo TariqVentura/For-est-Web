@@ -1,8 +1,11 @@
 {
   "name": "expo-web-con-ejs",
   "version": "1.0.0",
-  "description": "",
+  "description": "aplicacion",
   "main": "src/index.js",
+  "engines": {
+    "node": "16.17.0"
+  },
   "scripts": {
     "start" : "node src/index.js",
     "dev": "nodemon src/index.js"
