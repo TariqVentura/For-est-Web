@@ -1,0 +1,64 @@
+<div class="container-fluid" style="background-color: #262626;">
+    <div class="row d-flex justify-content-center p-3">
+        <div class="col-5 d-flex justify-content-start">
+            <img src="https://www.ricaldone.edu.sv/web/img/logo-ricaldone.png" alt="ricaldone" width="80%"
+                class=" mb-1">
+        </div>
+        <div class="col-5 text-center d-flex flex-column align-items-center">
+            <h6 class="text-light">FORMA PP-05</h6>
+            <h6 class="text-light">BITACORA DESARROLLO PRACTICA PROFESIONAL</h6>
+            <h6 class="text-light">PERIODO 20-21</h6>
+        </div>
+    </div>
+    <div class="row p-3 d-flex justify-content-center text-light">
+        <% result.forEach((estudiante)=> { %>
+        <div class="col-10">
+            <h6>Nombre del alumno: <%= estudiante.Nombres %>  <%= estudiante.apellidos %></h6>
+            <br>
+            <h6>Seccion: <%= estudiante.seccion %></h6>
+            <br>
+            <h6>Especialidad: <%= estudiante.especialidad %></h6>
+            <br>
+            <h6>Carnet: <%= estudiante.carnet %></h6>
+            <br>
+            <h6>Nombre de la Empresa: <%= estudiante.empresa %></h6>
+            <br>
+            <h6>Nombre del tutor o encargado: <%= estudiante.docente %></h6>
+        <% }) %>
+        </div>
+    </div>
+    <div class="row  d-flex justify-content-center p-3">
+        <div class="col-10">
+            <table class="table text-light" style="background-color: #262626 !important;">
+                <thead>
+                    <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora de entrada</th>
+                        <th scope="col">Hora de salida</th>
+                        <th scope="col">Tipo de actividad</th>
+                        <th scope="col">Horas total</th>
+                        <th scope="col">Horas acumuladas</th>
+                        <th scope="col">Firma del tutor</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    <% results.forEach((bitacora)=> { %>
+                    <div class="d-flex align-items-center">
+                        <tr>
+                            <th scope="row"><%= bitacora.fecha %></th>
+                            <td><%= bitacora.hora_entrada %></td>
+                            <td><%= bitacora.hora_salida %></td>
+                            <td><%= bitacora.tipo_actividad %></td>
+                            <td><%= bitacora.horas_totales %></td>
+                            <td><%= bitacora.horas_acumuladas %></td>
+                            <td><img src="http://localhost:3001/img/<%= bitacora.firma %>" alt=""
+                                    style="max-height: 10%; max-width: 30%;"></td>
+                        </tr>
+                    </div>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

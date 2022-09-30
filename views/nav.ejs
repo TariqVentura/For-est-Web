@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg sticky-top d-flex justify-content-start"
+  style="background-color: #1a1a1b; border-bottom: 1px #2d2e2f solid;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="http://localhost:3001/img/forestlogo.png" alt="ricaldone" width="9%" class=" mb-1">
+    </a>
+    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto mr-1">
+        <div class="dropdown-center">
+          <button class="btn btn-secondary dropdown-toggle"
+            style="background-color: #1a1a1b; border: 1px #1a1a1b solid;" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Recursos
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark" style="background-color: #1a1a1b;">
+            <li><a class="dropdown-item text-light Recursos"
+                href="http://localhost:3001/files/bitacoraSoftware.docx">Bitacora</a></li>
+            <li><a class="dropdown-item text-light" href="http://localhost:3001/files/CartaFinalizacion.docx">Carta de
+                Finalización</a></li>
+            <li><a class="dropdown-item text-light Recursos"
+                href="http://localhost:3001/files/cartapresentación.docx">Carta de
+                Presentación</a></li>
+            <li><a class="dropdown-item text-light Recursos"
+                href="http://localhost:3001/files/InstrumentoEvaluacion.docx">Instrumento de
+                Evaluación</a></li>
+            <li><a class="dropdown-item text-light Recursos"
+                href="http://localhost:3001/files/normativa.docx">Normativa</a></li>
+          </ul>
+        </div>
+      </ul>
+      <ul class="navbar-nav ml-auto mr-1">
+        <li class="nav-item dropstart">
+          <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <%= msg%>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li>
+              <form action="/schedule" method="POST">
+                <button class="dropdown-item" type="submit" href="">
+                  <img
+                    src="https://img.icons8.com/external-yogi-aprelliyanto-detailed-outline-yogi-aprelliyanto/32/FFFFFF/external-schedule-website-development-yogi-aprelliyanto-detailed-outline-yogi-aprelliyanto.png" />
+                  Horario</button>
+                <div class="d-none">
+                  <input type="text" name="usuario" value="<%= msg %>" class="form-control text-light"
+                    id="validationDefault01" placeholder="0000-0000" required
+                    style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                </div>
+              </form>
+              <form action="/doc" method="post">
+                <button class="dropdown-item" type="submit" href="">
+                  <img src="https://img.icons8.com/material-rounded/32/FFFFFF/business-report.png"/>
+                  Bitacora
+                  <div class="d-none">
+                    <% results.forEach((estudiante)=> { %>
+                      <input type="text" name="id_estudiante" value="<%= estudiante.id_estudiante %>"
+                        class="form-control text-light" id="imgPath" placeholder="" required
+                        style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                      <input type="text" name="carnet" value="<%= estudiante.carnet %>"
+                        class="form-control text-light" id="imgPath" placeholder="" required
+                        style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                      <% }) %>
+                  </div>
+                </button>
+              </form>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="http://localhost:3001/"><img
+                  src="https://img.icons8.com/windows/32/FFFFFF/exit.png" /> Cerrar Sesion</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

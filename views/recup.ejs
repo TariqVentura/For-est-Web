@@ -1,0 +1,30 @@
+<div class="container-fluid" style="background-image: url(http://localhost:3001/img/bg-login.jpg);">
+    <div class="row justify-content-center">
+        <div class="col-5" style="min-height: 100vh; background-color: #272729;">
+            <br>
+            <form action="/soli" method="POST" autocomplete="off">
+                <% result.forEach((id)=> { %> 
+                <div class="d-none">
+                    <input type="number" name="id_usuario" value="<%= id.id_usuario %>" class="form-control text-light" id="validationDefault01"
+                        placeholder="Ingrese su usuario" required
+                        style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                </div>
+                <div class="mb-3 p-1 px-3 text-light ">
+                    <label for="validationDefault01" class="form-label text-light">Usuario</label>
+                    <input type="text" name="usuario" value="<%= id.usuario %>" class="form-control text-light" id="validationDefault01"
+                        placeholder="Ingrese su usuario" required
+                        style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                </div>
+                <% }) %>
+                
+                <div class="mb-3 p-1 px-3 text-light">
+                    <label for="textarea1" class="form-label text-light">Situacion</label>
+                    <textarea class="form-control text-light" aria-label="With textarea" style="background-color: #2d2e2f; border-color: #2d2e2f;" rows="10" id="textarea1" placeholder="Escriba su situacion aqui" required name="situacion"></textarea>
+                </div>
+                <div class="d-flex justify-content-center p-3 mt-3 d-grid gap-2 w-100">
+                    <button type="submit" class="btn btn-success mt-2 w-100 p-2" id="btn-log">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

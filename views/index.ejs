@@ -1,0 +1,83 @@
+<%- include('nav.ejs') -%>
+
+    <div class="container-fluid" style="background-image: url(http://localhost:3001/img/bg-login.jpg);">
+        <div class="row" style="display: flex; flex-wrap: wrap;">
+            <div class="col-7">
+                <div class="container-fluid w-75 mt-3 p-3 rounded d-flex flex-row justify-content-between"
+                    style="background-color: #1a1a1b; border: 1px #2d2e2f solid;">
+                    <button type="button" class="btn btn-dark"><img
+                            src="https://img.icons8.com/ios-glyphs/30/FFFFFF/statistics--v1.png" /> Mas Popular</button>
+                    <button type="button" class="btn btn-dark"><img
+                            src="https://img.icons8.com/windows/32/FFFFFF/new.png" /> Mas Reciente</button>
+                    <button type="button" class="btn btn-dark"><img
+                            src="https://img.icons8.com/material-outlined/24/FFFFFF/time-machine.png" /> Mas
+                        Antiguo</button>
+                    <button type="button" class="btn btn-dark">Dark</button>
+                </div>
+                <% results.forEach((publicacion)=> { %>
+                    <div class="container-fluid w-75 mt-3 p-2 rounded"
+                        style="background-color: #1a1a1b; border: 1px #2d2e2f solid;">
+                        <div class="text-light h5" style="border-bottom: 1px #2d2e2f solid;">
+                            <%= publicacion.titulo %>
+                        </div>
+                        <div class="">
+                            <a href="http://localhost:3001/img/<%= publicacion.imgPath%>">
+                                <img src="http://localhost:3001/img/<%= publicacion.imagePath%>" decoding=""
+                                    class="w-100 h-100" alt="imagen">
+                            </a>
+                        </div>
+                        <form action="/apply" method="POST">
+                            <div class="d-none">
+                                <input type="number" name="id_estudiante"
+                                    class="form-control bg-secondary border-danger text-light" id="inputPassword"
+                                    value="<%= publicacion.id_estudiante %>">
+                                <input type="number" name="id_publicacion"
+                                    class="form-control bg-secondary border-danger text-light" id="inputPassword"
+                                    value="<%= publicacion.id_publicacion %>">
+                                <input type="number" name="id_empresa"
+                                    class="form-control bg-secondary border-danger text-light" id="inputPassword"
+                                    value="<%= publicacion.id_empresa %>">
+                                <input type="number" name="id_estado_peticion"
+                                    class="form-control bg-secondary border-danger text-light" id="inputPassword"
+                                    value="3">
+                                <input type="number" name="usuario"
+                                    class="form-control bg-secondary border-danger text-light" id="inputPassword"
+                                    value="<%= publicacion.carnet %>">
+                            </div>
+                            <div class="d-flex justify-content-center p-3 mt-3 d-grid gap-2 w-100">
+                                <button type="submit" class="btn btn-success mt-2 w-100 p-2"
+                                    id="btn-log">Aplicar</button>
+
+                            </div>
+                        </form>
+
+                    </div>
+                    <% }) %>
+            </div>
+            <div class="col-4">
+                <%- include('index-bar.ejs') -%>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: "<%= alertIcon%>",
+                title: "<%= alertTitle %>",
+                background: "#2d2e2f",
+                color: "#FFFFFF"
+            })
+        })
+    </script>

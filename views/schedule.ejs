@@ -1,0 +1,153 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<div class="container-fluid" style="background-image: url(http://localhost:3001/img/bg-login.jpg);">
+    <div class="row justify-content-center">
+        <div class="col-6" style="min-height: 100vh; background-color: #272729;">
+            <br>
+            <form action="/document" method="POST" autocomplete="off">
+                <div class="d-none">
+                    <input type="text" name="imgPath" value="" class="form-control text-light" id="imgPath"
+                        placeholder="" required style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                    <% results.forEach((estudiante)=> { %>
+                        <input type="text" name="id_estudiante" value="<%= estudiante.id_estudiante %>"
+                            class="form-control text-light" id="imgPath" placeholder="" required
+                            style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                        <input type="text" name="carnet" value="<%= estudiante.carnet %>"
+                            class="form-control text-light" id="imgPath" placeholder="" required
+                            style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                        <% }) %>
+                            <% result.forEach((hora)=> { %>
+                                <input type="number" name="hora_post" value="<%= hora.total%>"
+                                    class="form-control text-light" id="imgPath" placeholder=""
+                                    style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                                <% }) %>
+                </div>
+                <div class="mb-3 p-1 px-3 text-light ">
+                    <label for="Hora" class="form-label text-light">Hora Entrada</label>
+                    <input type="text" name="entrada" class="form-control text-light timepicker" id="Hora"
+                        style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                </div>
+                <div class="mb-3 p-1 px-3 text-light">
+                    <label for="Hora2" class="form-label text-light">Hora Salida</label>
+                    <input type="text" name="salida" class="form-control text-light timepicker" id="Hora2" required
+                        style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                </div>
+                <div class="mb-3 p-1 px-3 text-light">
+                    <label for="validationDefault01" class="form-label text-light">Tipo de Actividad</label>
+                    <textarea name="actividad" placeholder="Este dia he realizado..." id="validationDefault01" cols="30"
+                        rows="5" class="form-control text-light" required
+                        style="background-color: #2d2e2f; border-color: #2d2e2f;"></textarea>
+                </div>
+                <div class="mb-3 p-1 px-3 text-light d-flex justify-content-center flex-column">
+                    <canvas id="canvas" style="border: 1px white solid; background-color: white;"></canvas>
+                    <br>
+                    <button type="button" class="btn btn-info" id="btnLimpiar">Limpiar</button>
+                </div>
+                <div class="d-flex justify-content-center p-3 mt-3 d-grid gap-2 w-100">
+                    <button type="submit" class="btn btn-success mt-2 w-100 p-2" id="submit">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="http://localhost:3001/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Hora').timepicker({
+            twelveHour: false
+        });
+        $('#Hora2').timepicker({
+            twelveHour: false
+        });
+        let mouse = {
+            click: false,
+            move: false,
+            pos: { x: 0, y: 0 },
+            pos_prev: false
+        }
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const limpiar = document.getElementById('btnLimpiar');
+        const Descargar = document.getElementById('submit');
+        const COLOR_FONDO = "white";
+
+        const socket = io();
+
+        canvas.width = width;
+        canvas.height = height;
+
+        canvas.addEventListener('mousedown', (e) => {
+            mouse.click = true;
+        })
+
+        canvas.addEventListener('mouseup', (e) => {
+            mouse.click = false;
+        })
+
+        canvas.addEventListener('mousemove', (e) => {
+            mouse.pos.x = e.clientX / width;
+            mouse.pos.y = e.clientY / height;
+            mouse.move = true;
+        });
+
+        socket.on('draw_line', data => {
+            const line = data.line;
+            context.beginPath();
+            context.lineWidth = 2;
+            context.moveTo(line[0].x * width, line[0].y * height);
+            context.lineTo(line[1].x * width, line[1].y * height);
+            context.stroke();
+        });
+
+        function mainLoop() {
+            if (mouse.click && mouse.move && mouse.pos_prev) {
+                socket.emit('draw_line', { line: [mouse.pos, mouse.pos_prev] })
+                mouse.move = false
+            }
+            mouse.pos_prev = { x: mouse.pos.x, y: mouse.pos.y }
+            setTimeout(mainLoop, 25)
+        }
+
+        mainLoop();
+
+        const limpiarCanvas = () => {
+            context.fillStyle = COLOR_FONDO;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+        };
+
+        limpiarCanvas();
+        limpiar.onclick = limpiarCanvas;
+
+        const fecha = new Date();
+        const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        Descargar.onclick = () => {
+            const enlace = document.createElement('a');
+            enlace.download = "Firma<%= msg%>" + fecha.getDate() + month[fecha.getMonth()] + fecha.getFullYear() + ".png";
+            enlace.href = canvas.toDataURL();
+            document.getElementById('imgPath').value = "Firma<%= msg%>" + fecha.getDate() + month[fecha.getMonth()] + fecha.getFullYear() + ".png";
+            enlace.click();
+        };
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: "<%= alertIcon%>",
+            title: "<%= alertTitle %>",
+            background: "#2d2e2f",
+            color: "#FFFFFF"
+        })
+    })
+</script>

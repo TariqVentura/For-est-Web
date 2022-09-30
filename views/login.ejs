@@ -1,0 +1,79 @@
+<div class="container-fluid" style="background-image: url(http://localhost:3001/img/bg-login.jpg);">
+    <div class="row justify-content-center">
+        <div class="col-5" style="min-height: 100vh; background-color: #272729;">
+            <div class="d-flex justify-content-center h-25 p-3">
+                <img src="http://localhost:3001/img/forestnaranja.png" alt="">
+            </div>
+            <div class="text-center p-2">
+                <h5 class="text-white-50">Ingrese sus credenciales</h5>
+            </div>
+            <div>
+                <form action="/inicio" method="POST" autocomplete="off">
+                    <div class="mb-3 p-1 px-3 text-light">
+                        <label for="validationDefault01" class="form-label text-light">Usuario</label>
+                        <input type="text" name="usuario" class="form-control text-light" id="validationDefault01"
+                            placeholder="Ingrese su usuario" required
+                            style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                    </div>
+                    <div class="mb-3 p-1 px-3 text-light">
+                        <label for="validationDefault01" class="form-label text-light">Clave</label>
+                        <input type="password" name="clave" class="form-control text-light" id="validationDefault01"
+                            placeholder="Ingrese su contraseña" required
+                            style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                    </div>
+                    <div class="d-flex justify-content-center p-3 mt-3 d-grid gap-2 w-100">
+                        <button type="submit" class="btn btn-success mt-2 w-100 p-2" id="btn-log">Success</button>
+                    </div>
+                </form>
+                <form action="" method="POST" >
+                    <div class="p-3 ">
+                        <button type="button" onclick="recup()" class="btn btn-outline-info">cambiar contraseña</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+     function recup() {
+         const { usuario: usuario } = Swal.fire({
+             title: 'Recuperacion de contraseña',
+             input: 'text',
+             inputLabel: 'Su usuario',
+             inputPlaceholder: '20190052',
+             showCancelButton: true,
+             inputValidator: (usuario) => {
+                 if (!usuario) {
+                     return 'Ingrese un usuario'
+                 } else {
+                     window.location = '/login/' + usuario
+                 }
+             }
+         })
+     }
+
+    $(document).ready(function () {
+        if ("<%= alert%>" === "true") {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: "<%= alertIcon%>",
+                title: "<%= alertTitle %>",
+                background: "#2d2e2f",
+                color: "#FFFFFF"
+            })
+        } 
+    })
+</script>
