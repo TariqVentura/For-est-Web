@@ -67,7 +67,14 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="http://localhost:3001/"><img
+            <li>
+              <form action="/login/logout" method="get">
+                <button class="dropdown-item" type="submit" href="" onclick="cerrar()">
+                  <img src="https://img.icons8.com/material-rounded/32/FFFFFF/business-report.png"/>
+                  Log out
+                </button>
+              </form>
+              <a class="dropdown-item" href="http://localhost:3001/"><img
                   src="https://img.icons8.com/windows/32/FFFFFF/exit.png" /> Cerrar Sesion</a></li>
           </ul>
         </li>

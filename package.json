@@ -7,7 +7,7 @@
     "node": "16.17.0"
   },
   "scripts": {
-    "start" : "node src/index.js",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
@@ -26,7 +26,8 @@
     "msnodesqlv8": "^2.6.0",
     "path": "^0.12.7",
     "socket.io": "^4.5.2",
-    "sweetalert2": "^11.4.33"
+    "sweetalert2": "^11.4.33",
+    "tedious": "^15.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

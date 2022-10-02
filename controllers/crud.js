@@ -46,6 +46,7 @@ exports.inicio = (req, res) => {
 
 exports.password = (req, res) => {
     const usuario = req.body.usuario;
+    let contra = req.body.clave
     let clave = md5(req.body.clave);
     let password = md5(req.body.password);
     const email = req.body.correo;
@@ -58,21 +59,29 @@ exports.password = (req, res) => {
                 res.render('changepassword', { msg: usuario, resultado: resultado, alert: true, alertTitle: "Ingrese una contraseña diferente", alertIcon: "warning" })
             })
         } else {
-            sql.query(conexion, "update usuarios set clave = '" + password + "' where usuario = '" + usuario + "'", (err, res) => {
-                if (err) {
-                    res.send('error al cambiar la contraseña' + err);
-                }
-            })
-            sql.query(conexion, "insert into contacto_estudiantes values('" + phone + "', '" + email + "', '" + id_estudiante + "')", (error, result) => {
-                if (error) {
-                    res.send('error al añadir los contactos' + error)
-                } else {
-                    res.render('login', { alert: true, alertTitle: "Bienvenidx!", alertMessage: "Bienvenidx al Sistema For-est, ingresa tus credenciales para continuar", alertIcon: "info" })
-                }
-            })
+            if (contra.length < 8) {
+                sql.query(conexion, "select id_estudiante from estudiantes where carnet = '" + usuario + "'", (req, resultado) => {
+                    res.render('changepassword', { msg: usuario, resultado: resultado, alert: true, alertTitle: "La contraseña debe contener almenos 8 caracteres", alertIcon: "warning" })
+                })
+            } else {
+                sql.query(conexion, "update usuarios set clave = '" + password + "' where usuario = '" + usuario + "'", (err, res) => {
+                    if (err) {
+                        res.render('login', { alert: true, alertTitle: "Error al cambiar la contraseña", alertMessage: "Bienvenidx al Sistema For-est, ingresa tus credenciales para continuar", alertIcon: "error" })
+                    }
+                })
+                sql.query(conexion, "insert into contacto_estudiantes values('" + phone + "', '" + email + "', '" + id_estudiante + "')", (error, result) => {
+                    if (error) {
+                        res.render('login', { alert: true, alertTitle: "Error al agregar los contactos", alertMessage: "Bienvenidx al Sistema For-est, ingresa tus credenciales para continuar", alertIcon: "error" })
+                    } else {
+                        res.render('login', { alert: true, alertTitle: "Bienvenidx!", alertMessage: "Bienvenidx al Sistema For-est, ingresa tus credenciales para continuar", alertIcon: "info" })
+                    }
+                })
+            }          
         }
     } else {
-        res.send('Las contraseñas ingresadas no coinciden')
+        sql.query(conexion, "select id_estudiante from estudiantes where carnet = '" + usuario + "'", (req, resultado) => {
+            res.render('changepassword', { msg: usuario, resultado: resultado, alert: true, alertTitle: "Las contraseñas no coinciden", alertIcon: "warning" })
+        })
     }
 }
 
@@ -86,7 +95,9 @@ exports.apply = (req, res) => {
         if (result.length == 0) {
             sql.query(conexion, "insert into peticiones values('" + id_estudiante + "', '" + id_empresa + "', '" + id_publicacion + "', '" + id_estado_peticion + "')", (error, results) => {
                 if (error) {
-                    res.send('no funciono D:');
+                    sql.query(conexion, 'select a.titulo, a.imagePath, a.id_empresa, a.id_publicacion, b.id_estudiante, b.carnet from publicaciones a, estudiantes b where a.id_especialidad = b.id_especialidad and b.carnet = ?', [usuario], async (error, results) => {
+                        res.render('index', { results: results, msg: usuario, frame: 'index-publicaciones.ejs', alert: true, alertTitle: "No se pudo enviar la solicitud", alertIcon: "error" })
+                    })
                 } else {
                     sql.query(conexion, 'select a.titulo, a.imagePath, a.id_empresa, a.id_publicacion, b.id_estudiante, b.carnet from publicaciones a, estudiantes b where a.id_especialidad = b.id_especialidad and b.carnet = ?', [usuario], async (error, results) => {
                         res.render('index', { results: results, msg: usuario, frame: 'index-publicaciones.ejs', alert: true, alertTitle: "Se ha enviado la solicitud", alertIcon: "success" })
@@ -212,4 +223,27 @@ exports.soli = (req, res) => {
             res.render('login', { alert: true, alertTitle: "Solicitud enviada", alertIcon: "success" })
         }
     })
+}
+
+exports.public = (req, res) => {
+    const id_estudiante = req.params.id_estudiante;
+    const id_publicacion = req.params.id_publicacion;
+    const usuario = req.params.usuario;
+    sql.query(conexion, "select b.titulo, b.texto, b.imagePath, c.empresa, c.id_empresa, b.fecha_finalizacion, b.id_publicacion   from publicaciones b, empresas c  where b.id_empresa = c.id_empresa and b.id_publicacion = ?", [id_publicacion], async(error, result) => {
+        if (error) {
+            throw error
+        } else {
+            sql.query(conexion, "select count(id_publicacion) as aspirantes from peticiones where id_publicacion = ?", [id_publicacion], async(err, results) => {
+                if (err) {
+                    throw err
+                } else {
+                    res.render('publicacion_id', {result:result, results:results, msg:usuario, id_estudiante:id_estudiante})                   
+                }
+            })
+        }
+    })
+}
+
+exports.logout = (req, res) => {
+    res.redirect('login', { alert: true, alertTitle: "Usuario inexistente", alertIcon: "error"})
 }
