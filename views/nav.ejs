@@ -52,11 +52,11 @@
                   <img src="https://img.icons8.com/material-rounded/32/FFFFFF/business-report.png"/>
                   Bitacora
                   <div class="d-none">
-                    <% results.forEach((estudiante)=> { %>
-                      <input type="text" name="id_estudiante" value="<%= estudiante.id_estudiante %>"
+                    <% results.forEach((publicacion)=> { %>
+                      <input type="text" name="id_estudiante" value="<%= publicacion.id_estudiante %>"
                         class="form-control text-light" id="imgPath" placeholder="" required
                         style="background-color: #2d2e2f; border-color: #2d2e2f;">
-                      <input type="text" name="carnet" value="<%= estudiante.carnet %>"
+                      <input type="text" name="carnet" value="<%= publicacion.carnet %>"
                         class="form-control text-light" id="imgPath" placeholder="" required
                         style="background-color: #2d2e2f; border-color: #2d2e2f;">
                       <% }) %>
@@ -68,12 +68,6 @@
               <hr class="dropdown-divider">
             </li>
             <li>
-              <form action="/login/logout" method="get">
-                <button class="dropdown-item" type="submit" href="" onclick="cerrar()">
-                  <img src="https://img.icons8.com/material-rounded/32/FFFFFF/business-report.png"/>
-                  Log out
-                </button>
-              </form>
               <a class="dropdown-item" href="http://localhost:3001/"><img
                   src="https://img.icons8.com/windows/32/FFFFFF/exit.png" /> Cerrar Sesion</a></li>
           </ul>

@@ -3,20 +3,17 @@
         <div class="col-5" style="min-height: 100vh; background-color: #272729;">
             <br>
             <form action="/soli" method="POST" autocomplete="off">
-                <% result.forEach((id)=> { %> 
-                <div class="d-none">
-                    <input type="number" name="id_usuario" value="<%= id.id_usuario %>" class="form-control text-light" id="validationDefault01"
+                <div class="">
+                    <input type="number" name="id_usuario" value="<%= result %>" class="form-control text-light" id="validationDefault01"
                         placeholder="Ingrese su usuario" required
                         style="background-color: #2d2e2f; border-color: #2d2e2f;">
                 </div>
                 <div class="mb-3 p-1 px-3 text-light ">
                     <label for="validationDefault01" class="form-label text-light">Usuario</label>
-                    <input type="text" name="usuario" value="<%= id.usuario %>" class="form-control text-light" id="validationDefault01"
+                    <input type="text" name="usuario" value="<%= msg %>" class="form-control text-light" id="validationDefault01"
                         placeholder="Ingrese su usuario" required
                         style="background-color: #2d2e2f; border-color: #2d2e2f;">
-                </div>
-                <% }) %>
-                
+                </div>                
                 <div class="mb-3 p-1 px-3 text-light">
                     <label for="textarea1" class="form-label text-light">Situacion</label>
                     <textarea class="form-control text-light" aria-label="With textarea" style="background-color: #2d2e2f; border-color: #2d2e2f;" rows="10" id="textarea1" placeholder="Escriba su situacion aqui" required name="situacion"></textarea>

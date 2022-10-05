@@ -7,19 +7,13 @@
                 <div class="d-none">
                     <input type="text" name="imgPath" value="" class="form-control text-light" id="imgPath"
                         placeholder="" required style="background-color: #2d2e2f; border-color: #2d2e2f;">
-                    <% results.forEach((estudiante)=> { %>
-                        <input type="text" name="id_estudiante" value="<%= estudiante.id_estudiante %>"
-                            class="form-control text-light" id="imgPath" placeholder="" required
-                            style="background-color: #2d2e2f; border-color: #2d2e2f;">
-                        <input type="text" name="carnet" value="<%= estudiante.carnet %>"
-                            class="form-control text-light" id="imgPath" placeholder="" required
-                            style="background-color: #2d2e2f; border-color: #2d2e2f;">
-                        <% }) %>
-                            <% result.forEach((hora)=> { %>
-                                <input type="number" name="hora_post" value="<%= hora.total%>"
-                                    class="form-control text-light" id="imgPath" placeholder=""
-                                    style="background-color: #2d2e2f; border-color: #2d2e2f;">
-                                <% }) %>
+                    <input type="text" name="id_estudiante" value="<%= result %>"
+                        class="form-control text-light" id="imgPath" placeholder="" required
+                        style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                    <input type="text" name="carnet" value="<%= msg %>" class="form-control text-light"
+                        id="imgPath" placeholder="" required style="background-color: #2d2e2f; border-color: #2d2e2f;">
+                    <input type="number" name="hora_post" value="<%= response %>" class="form-control text-light"
+                        id="imgPath" placeholder="" style="background-color: #2d2e2f; border-color: #2d2e2f;">
                 </div>
                 <div class="mb-3 p-1 px-3 text-light ">
                     <label for="Hora" class="form-label text-light">Hora Entrada</label>
